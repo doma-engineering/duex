@@ -10,6 +10,7 @@ defmodule Duex.Application do
     children = [
       # Starts a worker by calling: Duex.Worker.start_link(arg)
       # {Duex.Worker, arg}
+      {Plug.Cowboy, scheme: :http, plug: DuexRouter, port: 7092}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
