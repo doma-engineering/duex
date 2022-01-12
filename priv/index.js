@@ -131,11 +131,21 @@ inputFilesEl.addEventListener('change', (event) => {
 /* SIMPLE STUFF */
 
 const uploadSingleFile = async (element) => {
-  return await multipartRequest('/public/upload/single', {
+  return await multipart('/public/upload/single', {
     submission: element.
       parentElement.
       querySelector('.filePicker').
       files[0]
+  })
+}
+
+const uploadSingleFileWithCaptcha = async (element, captcha) => {
+  return await multipart('/human/upload/single', {
+    submission: element.
+      parentElement.
+      querySelector('.filePicker').
+      files[0],
+    captchaToken: captcha
   })
 }
 
@@ -145,7 +155,7 @@ const objectToFormData = (xkv) => {
   return fd
 }
 
-const multipartRequest = async (path, xkv) => {
+const multipart = async (path, xkv) => {
   const fd = objectToFormData(xkv)
   return await fetch(path, { method: 'POST', body: fd })
 }

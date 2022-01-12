@@ -5,17 +5,18 @@ defmodule Duex.RouterPublic do
 
   use Plug.Router
 
+  plug(:match)
+
   plug(Plug.Parsers,
     parsers: [:urlencoded, {:multipart, length: 1_000_000}, :json],
     pass: ["*/*"],
     json_decoder: Jason
   )
 
-  plug(:match)
   plug(:dispatch)
 
   post("/upload/single") do
-    Plug.run(conn, [{DuexSimpleUpload, []}])
+    Plug.run(conn, [{DuexSimpleUpload, [file_field: "submission"]}])
   end
 
   match _ do

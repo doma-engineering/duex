@@ -37,7 +37,9 @@
       <input class="filePicker" type="file">
       <div id="captcha--single_upload"></div>
       <button onclick="uploadSingleFile(this)">Public upload</button>
-      <button onclick="uploadSingleFile(this)">With captcha</button>
+      <button
+        onclick="uploadSingleFileWithCaptcha(this, grecaptcha.getResponse(grecaptcha_widgets['captcha--single_upload']));">With
+        captcha</button>
       <button onclick="uploadSingleFile(this)">With verifiable credential</button>
     </div>
   </section>
