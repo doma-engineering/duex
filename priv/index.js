@@ -127,3 +127,12 @@ inputFilesEl.addEventListener('change', (event) => {
   // cleanup
   event.target.files = null
 })
+
+/* SIMPLE STUFF */
+
+const uploadSingleFile = async (element) => {
+  const fd = new FormData()
+  const fp = element.parentElement.querySelector('.filePicker')
+  fd.append('submission', fp.files[0])
+  return await fetch('/public/upload/single', { method: 'POST', body: fd })
+}

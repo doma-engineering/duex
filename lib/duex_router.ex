@@ -6,18 +6,11 @@ defmodule DuexRouter do
   plug(Plug.Logger, log: :debug)
   plug(:dispatch)
 
+  import Duex
+
   forward("/public", to: Duex.RouterPublic)
   forward("/human", to: Duex.RouterHuman)
   forward("/user", to: Duex.RouterUser)
-
-  @spec priv :: binary()
-  def priv, do: Application.app_dir(:duex, "priv")
-
-  @spec index_html :: binary()
-  def index_html, do: priv() <> "/index.html"
-
-  @spec index_js :: binary()
-  def index_js, do: priv() <> "/index.js"
 
   match "/" do
     send_resp(conn, 200, File.read!(index_html()))

@@ -8,24 +8,34 @@
 </head>
 
 <body>
-  <form onsubmit="event.preventDefault(); saveAsZip(event);">
-    <div>
-      <button onclick="document.getElementById('__input_files').click()" type="button">Choose files</button>
-      <input id="__input_files" type="file" multiple style="display:none" />
+  <section>
+    <h1>Advanced file upload</h1>
+    <form onsubmit="event.preventDefault(); saveAsZip(event);">
+      <div>
+        <button onclick="document.getElementById('__input_files').click()" type="button">Choose files</button>
+        <input id="__input_files" type="file" multiple style="display:none" />
 
-      <button onclick="document.getElementById('__input_folder').click()" type="button">Select folder</button>
-      <input id="__input_folder" type="file" directory webkitdirectory mozdirectory
-        style="background-color: aquamarine; display: none;" />
+        <button onclick="document.getElementById('__input_folder').click()" type="button">Select folder</button>
+        <input id="__input_folder" type="file" directory webkitdirectory mozdirectory
+          style="background-color: aquamarine; display: none;" />
+      </div>
+
+      or
+
+      <div id="__dropzone" effectAllowed="move" style="min-height: 50px; background: silver; border: 2px dotted gold">
+        Drop files or folders here
+      </div>
+
+      <input type="submit" value="Download as zip">
+    </form>
+
+    Files: <div id="__files"></div>
+  </section>
+  <section>
+    <h1>Less advanced file upload</h1>
+    <div class="component">
+      <input class="filePicker" type="file">
+      <button onclick="uploadSingleFile(this)">Upload a single file</button>
     </div>
-
-    or
-
-    <div id="__dropzone" effectAllowed="move" style="min-height: 50px; background: silver; border: 2px dotted gold">
-      Drop files or folders here
-    </div>
-
-    <input type="submit" value="Download as zip">
-  </form>
-
-  Files: <div id="__files"></div>
+  </section>
 </body>
