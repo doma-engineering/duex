@@ -131,8 +131,25 @@ inputFilesEl.addEventListener('change', (event) => {
 /* SIMPLE STUFF */
 
 const uploadSingleFile = async (element) => {
-  const fd = new FormData()
-  const fp = element.parentElement.querySelector('.filePicker')
-  fd.append('submission', fp.files[0])
-  return await fetch('/public/upload/single', { method: 'POST', body: fd })
+  return await multipartRequest('/public/upload/single', {
+    submission: element.
+      parentElement.
+      querySelector('.filePicker').
+      files[0]
+  })
 }
+
+const objectToFormData = (xkv) => {
+  const fd = new FormData()
+  Object.entries(xkv).forEach(([k, v]) => fd.append(k, v))
+  return fd
+}
+
+const multipartRequest = async (path, xkv) => {
+  const fd = objectToFormData(xkv)
+  return await fetch(path, { method: 'POST', body: fd })
+}
+
+// const withCaptchaRequest = async (path, captchaToken, xkv) => {
+//   return await fetch(path)
+// }

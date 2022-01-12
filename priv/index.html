@@ -32,10 +32,23 @@
     Files: <div id="__files"></div>
   </section>
   <section>
-    <h1>Less advanced file upload</h1>
+    <h1>Upload single file</h1>
     <div class="component">
       <input class="filePicker" type="file">
-      <button onclick="uploadSingleFile(this)">Upload a single file</button>
+      <div id="captcha--single_upload"></div>
+      <button onclick="uploadSingleFile(this)">Public upload</button>
+      <button onclick="uploadSingleFile(this)">With captcha</button>
+      <button onclick="uploadSingleFile(this)">With verifiable credential</button>
     </div>
   </section>
 </body>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit" async defer></script>
+<script>
+  window.grecaptcha_widgets = { 'captcha--single_upload': undefined };
+  function recaptchaCallback() {
+    for (let x in window.grecaptcha_widgets) {
+      window.grecaptcha_widgets[x] = grecaptcha.render(x, { 'sitekey': '6LfjSIwdAAAAAHISRIfFCoQBXayegVqbhAb6Vhgn' });
+    }
+  }
+</script>
