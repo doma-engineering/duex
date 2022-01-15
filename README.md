@@ -1,21 +1,24 @@
 # Duex
 
-**TODO: Add description**
+If you want recaptcha endpoint to work, decrypt dev.exs config with `passveil` and dump the captcha keyword list into the config under key `recaptcha`.
 
-## Installation
+So `captcha: [secret: "xxx", public: "yyy"]` decrypted from secret storage sould become `recaptcha: [secret: "xxx", public: "yyy"]` in the config.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `duex` to your list of dependencies in `mix.exs`:
+## Running
 
-```elixir
-def deps do
-  [
-    {:duex, "~> 0.1.0"}
-  ]
-end
+### Without direnv
+
+```
+nix develop path:.
+./run
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/duex](https://hexdocs.pm/duex).
+### With direnv
 
+```
+./run
+```
+
+### Without nix
+
+Figure it out yourself.
