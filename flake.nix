@@ -13,7 +13,9 @@
                     buildInputs = [
                         pkgs.elixir
                         pkgs.erlang
+                        pkgs.libsodium
                     ];
+                    LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.libsodium ];
                 };
         };
 }

@@ -20,7 +20,7 @@ defmodule Duex.RouterHuman do
   plug(:dispatch)
 
   post("/upload/single") do
-    Plug.run(conn, [{PlugCaptcha, []}, {DuexSimpleUpload, [file_field: "submission"]}])
+    Plug.run(conn, [{Arclight.PlugCaptcha, []}, {DuexSimpleUpload, [file_field: "submission"]}])
   end
 
   match _ do

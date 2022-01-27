@@ -27,3 +27,6 @@ duex-*.tar
 
 # Direnv
 .direnv/
+
+# Persist db
+/db/

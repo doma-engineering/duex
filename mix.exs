@@ -4,9 +4,10 @@ defmodule Duex.MixProject do
   def project do
     [
       app: :duex,
-      version: "0.1.0",
+      version: "0.1.0-pre",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
+      description: "Arclight authenticated file upload server demo.",
       deps: deps()
     ]
   end
@@ -22,12 +23,14 @@ defmodule Duex.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.2.2"},
+      {:jason, "~> 1.3"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:cors_plug, "~> 2.0"},
       {:dialyxir, "~> 1.1.0", [runtime: false]},
-      {:doma_recaptcha, "~> 3.1.1-doma"}
+      {:doma_recaptcha, "~> 3.1.1-doma"},
+      {:arclight, "~> 0.2.4-pre"},
+      {:doma, "~> 1.0.0"}
     ]
   end
 end
