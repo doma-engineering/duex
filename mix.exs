@@ -27,7 +27,7 @@ defmodule Duex.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:cors_plug, "~> 2.0"},
       {:dialyxir, "~> 1.1.0", [runtime: false]},
-      {:recaptcha, git: "https://github.com/samueljseay/recaptcha.git", ref: "71cd746"}
+      {:doma_recaptcha, "~> 3.1.1-doma"}
     ]
   end
 end
