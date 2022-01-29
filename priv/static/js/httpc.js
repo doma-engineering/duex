@@ -1,0 +1,38 @@
+const jsonResp = async (fetchF) => {
+    try {
+        const resp = await fetchF;
+        try {
+            const json = await resp.json();
+            return { status: resp.status, json: json };
+        } catch (e) {
+            return { status: -2, json: undefined, error: { error: "can't decode JSON", details: e } };
+        }
+    } catch (e) {
+        return { status: -1, json: undefined, error: { error: "can't perform fetch", details: e } };
+    }
+}
+
+const jsonReq = async (path, xkv) => {
+    return fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(xkv)
+    });
+}
+
+const foldReq = async (foldableXkvs) => {
+    var req = {};
+    for (xkv in foldableXkvs) {
+        req = { ...req, ...x };
+    }
+    return async (path) => {
+        jsonReq(path, req);
+    }
+}
+
+const reqDo = async (path, xkv) => {
+    return await jsonResp(jsonReq(path, xkv));
+}
+
+const foldReqDo = async (path, foldableXkvs) => {
+    return await jsonResp(foldReq(foldableXkvs)(path));
+}

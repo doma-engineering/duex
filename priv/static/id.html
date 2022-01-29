@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+
+<body>
+    <section x-data="{
+        password: '',
+        name: '',
+        slip: '',
+        signingKeypair: {
+            public: '??',
+            secret: '??'
+        }
+    }">
+        <h1>DoAuth-based authentication</h1>
+        <section>
+            <h2>Register</h2>
+            <form x-on:submit="
+                $event.preventDefault();
+                signingKeypair = mkIdentity(password);
+                console.log(await register(
+                    signingKeypair,
+                    grecaptcha.getResponse(grecaptcha_widgets['register--captcha']),
+                    {name: name}
+                ));
+            ">
+                <label>Name: </label><input x-model="name">
+                <label>Password: </label><input x-model="password" type="password">
+                <div id="register--captcha"></div>
+                <input type="submit" value="register">
+            </form>
+        </section>
+        <section>
+            <h2>Login</h2>
+        </section>
+    </section>
+
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaHandler&render=explicit" async defer></script>
+
+    <script src="https://unpkg.com/doauthor@0.4.3/dist/sodium.js" async defer></script>
+    <script src="https://unpkg.com/doauthor@0.4.3/dist/doauthor.js"></script>
+
+    <!-- our libraries lol -->
+    <script src="/p/js/prelude.js"></script>
+    <script src="/p/js/captcha.js"></script>
+    <script src="/p/js/httpc.js"></script>
+    <script src="/p/js/aaa.js"></script>
+
+    <script>
+        function recaptchaHandler() {
+            window.grecaptcha_widgets = { 'register--captcha': undefined };
+            recaptchaCallback('6LfjSIwdAAAAAHISRIfFCoQBXayegVqbhAb6Vhgn');
+        }
+        window.onload = () => {
+        }
+        (async () => {
+            console.log("Loading...");
+            await DoAuthorBootstrapper.main();
+            console.log("Loaded Sodium and DoAuth");
+        })();
+    </script>
+</body>
+
+</html>

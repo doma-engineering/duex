@@ -4,10 +4,12 @@ defmodule DuexRouter do
   plug(:match)
   plug(CORSPlug)
   plug(Plug.Logger, log: :debug)
+  plug(Plug.Static, from: {:duex, "priv/static"}, at: "/p")
   plug(:dispatch)
 
   import Duex
 
+  forward("/arc", to: Arclight.RouterPublic)
   forward("/public", to: Duex.RouterPublic)
   forward("/human", to: Duex.RouterHuman)
   forward("/user", to: Duex.RouterUser)

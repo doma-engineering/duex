@@ -25,6 +25,12 @@ defmodule Duex do
   @spec index_js :: binary()
   def index_js, do: priv() <> "/index.js"
 
+  @spec pf(binary) :: binary()
+  def pf(<<t::binary>>) do
+    priv() <> "/" <> t
+  end
+
+  @spec filter_ascii(bitstring) :: bitstring
   def filter_ascii(xs) do
     for <<x <- xs>>, x in 0..127, into: "", do: <<x>>
   end

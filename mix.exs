@@ -8,6 +8,9 @@ defmodule Duex.MixProject do
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       description: "Arclight authenticated file upload server demo.",
+      aliases: [
+        test: "test --no-start",
+      ],
       deps: deps()
     ]
   end
@@ -29,7 +32,8 @@ defmodule Duex.MixProject do
       {:cors_plug, "~> 2.0"},
       {:dialyxir, "~> 1.1.0", [runtime: false]},
       {:doma_recaptcha, "~> 3.1.1-doma"},
-      {:arclight, "~> 0.2.4-pre"},
+      # {:arclight, "~> 0.2.7-pre"},
+      {:arclight, path: "../arclight"},
       {:doma, "~> 1.0.0"}
     ]
   end
