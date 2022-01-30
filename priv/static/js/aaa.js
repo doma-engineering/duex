@@ -24,16 +24,14 @@ const mkIdentity = async (password) => {
     return { secret: show(skp.secret), public: show(skp.public) };
 }
 
-const readKeypair = (skp) => {
-    const read = doauthor.crypto.read;
-    return { public: read(skp.public), secret: read(skp.secret) };
-}
-
 const register = async (skp, captchaToken, meta) => {
+
+    console.log(skp);
 
     const pk = getIn(skp, ['public'], '');
     const sk = getIn(skp, ['secret'], '');
     const name = getIn(meta, ['name']);
+    var skp_raw = undefined;
 
     try {
         if (name === undefined) {
@@ -41,10 +39,12 @@ const register = async (skp, captchaToken, meta) => {
         }
 
         await withDoAuthor(fz);
+        skp_raw = { public: doauthor.crypto.read(skp.public), secret: doauthor.crypto.read(skp.secret) };
+        console.log(skp_raw);
 
         const req0 = {
             credential: doauthor.credential.from_claim(
-                readKeypair(skp),
+                skp_raw,
                 {
                     me: skp.public,
                     // We currently only support (and require) names in metadata, but see
@@ -59,7 +59,9 @@ const register = async (skp, captchaToken, meta) => {
             captchaToken: captchaToken
         }
 
-        return await foldReqDo('/register', [req0, req1]);
+        // This assumes that users of arclight shall route requests to arclight router via /arc/.
+        // Perhaps we want to let the caller of register configure this via opts argument a la elixir.
+        return await foldReqDo('/arc/register', [req0, req1]);
     } catch (e) {
         return {
             status: -500,
@@ -70,9 +72,9 @@ const register = async (skp, captchaToken, meta) => {
                 validation: {
                     hasCaptcha: !!captchaToken,
                     publicLengthEqualsToCryptoSignED25519_PUBLICKEYBYTES:
-                        32 === pk.length,
+                        32 === getIn(skp_raw, ['public'], new ArrayBuffer()).byteLength,
                     secretLengthEqualsToCryptoSignED25519_SECRETKEYBYTES:
-                        32 + 32 === sk.length,
+                        32 + 32 === getIn(skp_raw, ['secret'], new ArrayBuffer()).byteLength,
                     nameIsSet: !!name
                 }
             }

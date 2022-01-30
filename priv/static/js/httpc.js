@@ -12,17 +12,20 @@ const jsonResp = async (fetchF) => {
     }
 }
 
-const jsonReq = async (path, xkv) => {
+const jsonReq = (path, xkv) => {
     return fetch(path, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(xkv)
     });
 }
 
-const foldReq = async (foldableXkvs) => {
+const foldReq = (foldableXkvs) => {
     var req = {};
     for (xkv in foldableXkvs) {
-        req = { ...req, ...x };
+        req = { ...req, ...foldableXkvs[xkv] };
     }
     return async (path) => {
         jsonReq(path, req);
@@ -34,5 +37,6 @@ const reqDo = async (path, xkv) => {
 }
 
 const foldReqDo = async (path, foldableXkvs) => {
+    console.log(foldReq);
     return await jsonResp(foldReq(foldableXkvs)(path));
 }

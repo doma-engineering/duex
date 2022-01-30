@@ -20,7 +20,7 @@
             <h2>Register</h2>
             <form x-on:submit="
                 $event.preventDefault();
-                signingKeypair = mkIdentity(password);
+                signingKeypair = await mkIdentity(password);
                 console.log(await register(
                     signingKeypair,
                     grecaptcha.getResponse(grecaptcha_widgets['register--captcha']),
@@ -41,8 +41,8 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaHandler&render=explicit" async defer></script>
 
-    <script src="https://unpkg.com/doauthor@0.4.3/dist/sodium.js" async defer></script>
-    <script src="https://unpkg.com/doauthor@0.4.3/dist/doauthor.js"></script>
+    <script src="https://unpkg.com/doauthor@0.4.4/dist/sodium.js" async defer></script>
+    <script src="https://unpkg.com/doauthor@0.4.4/dist/doauthor.js"></script>
 
     <!-- our libraries lol -->
     <script src="/p/js/prelude.js"></script>
