@@ -1,2 +1,2 @@
 export ERL_AFLAGS="-kernel shell_history enabled"
-iex -S mix
+iex --name "duex@localhost" --erl "-proto_dist inet6_tcp -pa _build/**/lib/**/ebin" -S mix

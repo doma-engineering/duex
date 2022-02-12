@@ -1,22 +1,9 @@
-////
-// https://github.com/doma-engineering/doauthor-js#adding-to-your-website
-//
-// Namely:
-// The reason why you can't add it [doauthor initialisation] in window.onload is that we're using sodium.js underneath, which loads asynchronously and independently from window, calling its own window.sodium.onload hook.
-////
-const withDoAuthor = async (awayWeGo) => {
-    try {
-        const _lightsOut = await DoAuthorBootstrapper.main();
-        return awayWeGo();
-    } catch (e) {
-        console.log("DoAuthor or its payload has failed", e);
-    }
-}
-
 const fz = () => { return 0; }
 
 const mkIdentity = async (password) => {
-    await withDoAuthor(fz);
+    console.log("keque");
+    await DoAuthor.require();
+    console.log("coocareque");
 
     const mkey = doauthor.crypto.mainKey(password);
     const skp = doauthor.crypto.deriveSigningKeypair(mkey, 1);
@@ -38,7 +25,7 @@ const register = async (skp, captchaToken, meta) => {
             throw "Missing `name`";
         }
 
-        await withDoAuthor(fz);
+        await DoAuthor.require();
         skp_raw = { public: doauthor.crypto.read(skp.public), secret: doauthor.crypto.read(skp.secret) };
         console.log(skp_raw);
 

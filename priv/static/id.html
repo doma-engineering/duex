@@ -20,7 +20,9 @@
             <h2>Register</h2>
             <form x-on:submit="
                 $event.preventDefault();
+                console.log('Register prevented default');
                 signingKeypair = await mkIdentity(password);
+                console.log('Register generated keypair');
                 console.log(await register(
                     signingKeypair,
                     grecaptcha.getResponse(grecaptcha_widgets['register--captcha']),
@@ -41,8 +43,8 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaHandler&render=explicit" async defer></script>
 
-    <script src="https://unpkg.com/doauthor@0.4.4/dist/sodium.js" async defer></script>
-    <script src="https://unpkg.com/doauthor@0.4.4/dist/doauthor.js"></script>
+    <script src="https://unpkg.com/doauthor@0.5.1/dist/sodium.js" async defer></script>
+    <script src="https://unpkg.com/doauthor@0.5.1/dist/doauthor.js" async defer></script>
 
     <!-- our libraries lol -->
     <script src="/p/js/prelude.js"></script>
@@ -55,13 +57,12 @@
             window.grecaptcha_widgets = { 'register--captcha': undefined };
             recaptchaCallback('6LfjSIwdAAAAAHISRIfFCoQBXayegVqbhAb6Vhgn');
         }
-        window.onload = () => {
+        window.onload = async () => {
+            console.log("Loading...", window.duaothor);
+            await DoAuthor.require();
+            await DoAuthor.require();
+            console.log("Loaded Sodium and DoAuth", window.doauthor);
         }
-        (async () => {
-            console.log("Loading...");
-            await DoAuthorBootstrapper.main();
-            console.log("Loaded Sodium and DoAuth");
-        })();
     </script>
 </body>
 

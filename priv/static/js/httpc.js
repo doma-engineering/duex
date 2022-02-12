@@ -1,5 +1,6 @@
 const jsonResp = async (fetchF) => {
     try {
+        console.log(fetchF);
         const resp = await fetchF;
         try {
             const json = await resp.json();
@@ -28,7 +29,7 @@ const foldReq = (foldableXkvs) => {
         req = { ...req, ...foldableXkvs[xkv] };
     }
     return async (path) => {
-        jsonReq(path, req);
+        return await jsonReq(path, req);
     }
 }
 
@@ -37,6 +38,5 @@ const reqDo = async (path, xkv) => {
 }
 
 const foldReqDo = async (path, foldableXkvs) => {
-    console.log(foldReq);
     return await jsonResp(foldReq(foldableXkvs)(path));
 }
