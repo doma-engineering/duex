@@ -1,6 +1,5 @@
 const jsonResp = async (fetchF) => {
     try {
-        console.log(fetchF);
         const resp = await fetchF;
         try {
             const json = await resp.json();
@@ -13,8 +12,8 @@ const jsonResp = async (fetchF) => {
     }
 }
 
-const jsonReq = (path, xkv) => {
-    return fetch(path, {
+const jsonReq = async (path, xkv) => {
+    return await fetch(path, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

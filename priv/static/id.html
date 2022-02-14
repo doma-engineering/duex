@@ -7,36 +7,50 @@
 
 <body>
     <section x-data="{
-        password: '',
+        password: {
+            register: '',
+            login: ''
+        },
         name: '',
         slip: '',
         signingKeypair: {
-            public: '??',
-            secret: '??'
-        }
+            public: '',
+            secret: ''
+        },
+        fulfillment: {}
     }">
         <h1>DoAuth-based authentication</h1>
-        <section>
-            <h2>Register</h2>
-            <form x-on:submit="
-                $event.preventDefault();
-                console.log('Register prevented default');
-                signingKeypair = await mkIdentity(password);
-                console.log('Register generated keypair');
-                console.log(await register(
-                    signingKeypair,
-                    grecaptcha.getResponse(grecaptcha_widgets['register--captcha']),
-                    {name: name}
-                ));
-            ">
-                <label>Name: </label><input x-model="name">
-                <label>Password: </label><input x-model="password" type="password">
-                <div id="register--captcha"></div>
-                <input type="submit" value="register">
-            </form>
-        </section>
-        <section>
-            <h2>Login</h2>
+        <section x-show="!(signingKeypair['public'] && name)">
+            <article>
+                <h2>Register</h2>
+                <form x-on:submit="
+                            $event.preventDefault();
+                    signingKeypair = await mkIdentity(password.register);
+                    registration = register(signingKeypair, grecaptcha.getResponse(grecaptcha_widgets['register--captcha']), {name: name})
+                    console.log('Registration result', registration);
+                ">
+                    <label>Name: </label><input x-model="name">
+                        <label>Password: </label><input x-model="password.register" type="password">
+                        <div id="register--captcha"></div>
+                        <input type="submit" value="register">
+                        </form>
+            </article>
+            <article>
+                <h2>Login</h2>
+                <form x-on:submit="
+                                    $event.preventDefault();
+                                    signingKeypair = await mkIdentity(password.login);
+                                    console.log(jtoa(signingKeypair));
+                                    fulfillment = await login(signingKeypair);
+                                    console.log('Logged in', jtoa(fulfillment));
+                                ">
+                    <label>Password: </label><input x-model="password.login" type="password">
+                    <input type="submit" value="login">
+                </form>
+                </article>
+                </section>
+                <section x-show="signingKeypair['public'] && name">
+                    <div>Hello, <span x-text="name"></span>!</div>
         </section>
     </section>
 
@@ -58,7 +72,7 @@
             recaptchaCallback('6LfjSIwdAAAAAHISRIfFCoQBXayegVqbhAb6Vhgn');
         }
         window.onload = async () => {
-            console.log("Loading...", window.duaothor);
+            console.log("Loading...");
             await DoAuthor.require();
             await DoAuthor.require();
             console.log("Loaded Sodium and DoAuth", window.doauthor);

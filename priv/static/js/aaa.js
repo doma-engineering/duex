@@ -1,9 +1,7 @@
 const fz = () => { return 0; }
 
 const mkIdentity = async (password) => {
-    console.log("keque");
     await DoAuthor.require();
-    console.log("coocareque");
 
     const mkey = doauthor.crypto.mainKey(password);
     const skp = doauthor.crypto.deriveSigningKeypair(mkey, 1);
@@ -13,7 +11,7 @@ const mkIdentity = async (password) => {
 
 const register = async (skp, captchaToken, meta) => {
 
-    console.log(skp);
+    // console.log(skp);
 
     const pk = getIn(skp, ['public'], '');
     const sk = getIn(skp, ['secret'], '');
@@ -26,8 +24,9 @@ const register = async (skp, captchaToken, meta) => {
         }
 
         await DoAuthor.require();
-        skp_raw = { public: doauthor.crypto.read(skp.public), secret: doauthor.crypto.read(skp.secret) };
-        console.log(skp_raw);
+        //skp_raw = { public: doauthor.crypto.read(skp.public), secret: doauthor.crypto.read(skp.secret) };
+        skp_raw = readKeypair(skp);
+        // console.log(skp_raw);
 
         const req0 = {
             credential: doauthor.credential.from_claim(
@@ -63,6 +62,37 @@ const register = async (skp, captchaToken, meta) => {
                     secretLengthEqualsToCryptoSignED25519_SECRETKEYBYTES:
                         32 + 32 === getIn(skp_raw, ['secret'], new ArrayBuffer()).byteLength,
                     nameIsSet: !!name
+                }
+            }
+        }
+    }
+}
+
+const readKeypair = (skp, doauthorLoaded) => {
+    var doauthor1 = undefined;
+    if (typeof doauthorLoaded === 'undefined') {
+        doauthor1 = doauthorLoaded;
+    } else {
+        doauthor1 = window.doauthor;
+    }
+    return { public: doauthor.crypto.read(skp.public), secret: doauthor.crypto.read(skp.secret) };
+}
+
+// Currently meta isn't used, but soon it'll be used to check for E-Mail supplied
+const login = async (skp, _meta) => {
+    await DoAuthor.require();
+    try {
+        const cred = doauthor.credential.from_claim(readKeypair(skp), { 'me': skp.public });
+        console.log('X', jtoa(cred));
+        return await reqDo("/arc/login", {credential: cred});
+    } catch (e) {
+        return {
+            status: -500,
+            json: undefined,
+            error: {
+                error: "wrong signing keypair",
+                details: e,
+                validation: {
                 }
             }
         }

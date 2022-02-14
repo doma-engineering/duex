@@ -9,3 +9,5 @@ const getIn = (xkv, ps, fallbackV) => {
         return fallbackV;
     }
 }
+
+const jtoa = (x) => JSON.stringify(x)

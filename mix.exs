@@ -32,8 +32,8 @@ defmodule Duex.MixProject do
       {:cors_plug, "~> 2.0"},
       {:dialyxir, "~> 1.1.0", [runtime: false]},
       {:doma_recaptcha, "~> 3.1.1-doma"},
-      # {:arclight, "~> 0.2.7-pre"},
-      {:arclight, path: "../arclight"},
+      {:arclight, "~> 0.2.8-pre"},
+      # {:arclight, path: "../arclight"},
       {:doma, "~> 1.0.0"}
     ]
   end
